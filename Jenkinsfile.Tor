@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('CheckOut Code from GitHub') {
             steps {
-                checkout([$class: 'GitSCM', branches: [[name: '**/tags/**']],
+                checkout([$class: 'GitSCM', branches: [[name: '**/tags/*']],
                 doGenerateSubmoduleConfigurations: false,
                 extensions: [], submoduleCfg: [],
                 userRemoteConfigs: [[credentialsId: 'eran-jenkins', refspec: '+refs/tags/*:refs/remotes/origin/tags/*',
