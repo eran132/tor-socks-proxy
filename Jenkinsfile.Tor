@@ -17,6 +17,11 @@ pipeline {
                 sh "echo 'kuku2'"
             }
         }
+        stage('Docker build the image') {
+            steps {
+                docker.build image:${env.BUILD_ID} -f Dockerfile
+            }
+        }
 
     }
 }
