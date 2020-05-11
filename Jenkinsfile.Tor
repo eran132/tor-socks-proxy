@@ -3,10 +3,10 @@ pipeline {
     stages {
         stage('CheckOut Code from GitHub') {
             steps {
-                checkout([$class: 'GitSCM', branches: [[name: '**/tags/**', refspec: '+refs/tags/*:refs/remotes/origin/tags/*']],
+                checkout([$class: 'GitSCM', branches: [[name: '**/tags/**']],
                 doGenerateSubmoduleConfigurations: false,
                 extensions: [], submoduleCfg: [],
-                userRemoteConfigs: [[credentialsId: 'eran-jenkins',
+                userRemoteConfigs: [[credentialsId: 'eran-jenkins', refspec: '+refs/tags/*:refs/remotes/origin/tags/*'
                 url: 'git@github.com:eran132/tor-socks-proxy.git']]])
             }
         }
