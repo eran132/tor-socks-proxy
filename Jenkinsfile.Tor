@@ -20,9 +20,7 @@ pipeline {
         stage('Docker build the image') {
             steps {
                 docker.build("test:${env.BUILD_ID}")
-                
-            
+            }    
         }
-
     }
 }
