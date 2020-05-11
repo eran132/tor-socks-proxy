@@ -19,7 +19,7 @@ pipeline {
         }
         stage('Docker build the image') {
             steps {
-                sh "docker.build image:${env.BUILD_ID} -f Dockerfile"
+                docker.build("test:${env.BUILD_ID}" "-f Dockerfile")
             }
         }
 
