@@ -10,7 +10,7 @@ pipeline {
                 url: 'git@github.com:eran132/tor-socks-proxy.git']]])
             }
         }
-        stage('echo kuku') {
+        stage('echo kuku bamba') {
             steps {
                 sh "echo 'kuku'"
             }
