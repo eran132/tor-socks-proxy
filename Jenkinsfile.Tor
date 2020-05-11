@@ -6,7 +6,7 @@ pipeline {
                 branch '**/tags/*'
             }
             steps {
-                git clone git@github.com:eran132/tor-socks-proxy.git
+                sh 'git clone git@github.com:eran132/tor-socks-proxy.git'
                 // checkout([$class: 'GitSCM', branches: [[name: '**/tags/*']],
                 // doGenerateSubmoduleConfigurations: false,
                 // extensions: [], submoduleCfg: [],
