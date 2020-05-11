@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('clone Code from GitHub') {
             steps {
-                checkout([$class: 'GitSCM', branches: [[name: '**/tags/*']],
+                checkout([$class: 'GitSCM', branches: [[name: 'origin/**']],
                 doGenerateSubmoduleConfigurations: false,
                 extensions: [[$class: 'CloneOption', depth: 0, noTags: false, reference: '', shallow: false], 
                 [$class: 'GitTagMessageExtension', useMostRecentTag:true]], submoduleCfg: [],
