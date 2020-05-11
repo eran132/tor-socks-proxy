@@ -7,17 +7,10 @@ pipeline {
                 doGenerateSubmoduleConfigurations: false,
                 extensions: [], submoduleCfg: [],
                 userRemoteConfigs: [[credentialsId: 'eran-jenkins',
-                refspec: '+refs/tags/*:refs/remotes/origin/tags/*',
                 url: 'git@github.com:eran132/tor-socks-proxy.git']]])
             }
         }
-        stage('echo kuku bamba') {
-            steps {
-                sh "echo 'kuku'"
-                sh "echo 'kuku2'"
-            }
-        }
-        stage('Docker build the image') {
+        stage('build the Docker image') {
             steps {
                 script {
                     docker.build("test:${env.BUILD_ID}")
