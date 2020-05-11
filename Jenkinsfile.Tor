@@ -13,6 +13,7 @@ pipeline {
         stage('build the Docker image') {
             steps {
                 script {
+                    sh 'echo "kuku"'
                     docker.build("test:${env.BUILD_ID}")
                 }
             }    
