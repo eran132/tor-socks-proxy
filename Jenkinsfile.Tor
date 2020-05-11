@@ -6,7 +6,7 @@ pipeline {
                 checkout([$class: 'GitSCM', branches: [[name: '**/tags/**']],
                 doGenerateSubmoduleConfigurations: false,
                 extensions: [], submoduleCfg: [],
-                userRemoteConfigs: [[credentialsId: 'eran-jenkins', refspec: '+refs/tags/*:refs/remotes/origin/tags/*'
+                userRemoteConfigs: [[credentialsId: 'eran-jenkins', refspec: '+refs/tags/*:refs/remotes/origin/tags/*',
                 url: 'git@github.com:eran132/tor-socks-proxy.git']]])
             }
         }
