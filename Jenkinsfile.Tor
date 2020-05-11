@@ -14,6 +14,8 @@ pipeline {
         stage('echo kuku bamba') {
             steps {
                 sh "echo 'kuku'"
+                s {
+                sh "echo 'kuku2'"
             }
         }
 
