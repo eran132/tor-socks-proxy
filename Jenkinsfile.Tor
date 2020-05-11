@@ -2,17 +2,12 @@ pipeline {
     agent any
     stages {
         stage('clone Code from GitHub') {
-            when {
-                branch '**/tags/*'
-            }
             steps {
-                sh 'echo "kuku"'
-                sh 'git clone git@github.com:eran132/tor-socks-proxy.git'
-                // checkout([$class: 'GitSCM', branches: [[name: '**/tags/*']],
-                // doGenerateSubmoduleConfigurations: false,
-                // extensions: [], submoduleCfg: [],
-                // userRemoteConfigs: [[credentialsId: 'eran-jenkins', refspec: '+refs/tags/*:refs/remotes/origin/tags/*',
-                // url: 'git@github.com:eran132/tor-socks-proxy.git']]])
+                checkout([$class: 'GitSCM', branches: [[name: '**/tags/*']],
+                doGenerateSubmoduleConfigurations: false,
+                extensions: [], submoduleCfg: [],
+                userRemoteConfigs: [[credentialsId: 'eran-jenkins', refspec: '+refs/tags/*:refs/remotes/origin/tags/*',
+                url: 'git@github.com:eran132/tor-socks-proxy.git']]])
             }
         }
         stage('build the Docker image') {
