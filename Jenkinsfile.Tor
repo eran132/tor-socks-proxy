@@ -3,12 +3,16 @@ pipeline {
     stages {
         stage('clone Code from GitHub') {
             steps {
-                checkout([$class: 'GitSCM', branches: [[name: 'origin/**']],
+                checkout([$class: 'GitSCM', branches: [[name: '**/tags/*']],
                 doGenerateSubmoduleConfigurations: false,
-                extensions: [[$class: 'CloneOption', depth: 0, noTags: false, reference: '', shallow: false], 
-                [$class: 'GitTagMessageExtension', useMostRecentTag:true]], submoduleCfg: [],
+                extensions: [], submoduleCfg: [],
                 userRemoteConfigs: [[credentialsId: 'eran-jenkins', refspec: '+refs/tags/*:refs/remotes/origin/tags/*',
                 url: 'git@github.com:eran132/tor-socks-proxy.git']]])
+            }
+        }
+        stage ('git clone repo') {
+            steps {
+                sh "git clone git@github.com:eran132/tor-socks-proxy.git"
             }
         }
         stage('build the Docker image') {
