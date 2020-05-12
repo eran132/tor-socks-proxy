@@ -1,28 +1,28 @@
 pipeline {
     agent any
     stages {
-        stage('clone Code from GitHub') {
-            steps {
-                cleanWs()
-                checkout([$class: 'GitSCM', branches: [[name: '**/tags/*']],
-                doGenerateSubmoduleConfigurations: false,
-                extensions: [], submoduleCfg: [],
-                userRemoteConfigs: [[credentialsId: 'eran-jenkins', refspec: '+refs/tags/*:refs/remotes/origin/tags/*',
-                url: 'git@github.com:eran132/tor-socks-proxy.git']]])
-            }
-        }
-        stage ('git clone repo') {
-            steps {
-                sh "git clone git@github.com:eran132/tor-socks-proxy.git"
-            }
-        }
+        // stage('clone Code from GitHub') {
+        //     steps {
+        //         cleanWs()
+        //         checkout([$class: 'GitSCM', branches: [[name: '**/tags/*']],
+        //         doGenerateSubmoduleConfigurations: false,
+        //         extensions: [], submoduleCfg: [],
+        //         userRemoteConfigs: [[credentialsId: 'eran-jenkins', refspec: '+refs/tags/*:refs/remotes/origin/tags/*',
+        //         url: 'git@github.com:eran132/tor-socks-proxy.git']]])
+        //     }
+        // }
+        // stage ('git clone repo') {
+        //     steps {
+        //         sh "git clone git@github.com:eran132/tor-socks-proxy.git"
+        //     }
+        // }
         stage ('Build for Release') {
             when {
                 branch 'release'
             }
             steps {
                 script {
-                    docker.build("tor-socks-proxy_release:${env.BUILD_ID}", "--build-arg PORT=7293")
+                    docker.build("tor-socks-proxy_release:${env.BUILD_ID}", "--build-arg PORT=7293 -f Dockerfile .")
                 }
             }
         }
@@ -32,7 +32,7 @@ pipeline {
             }
             steps {
                 script {
-                    docker.build("tor-socks-proxy_release:${env.BUILD_ID}", "--build-arg PORT=5234")
+                    docker.build("tor-socks-proxy_release:${env.BUILD_ID}", "--build-arg PORT=5234 -f Dockerfile .")
                 }
             }
         }
