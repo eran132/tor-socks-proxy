@@ -21,7 +21,7 @@ pipeline {
             }
             steps {
                 script {
-                    docker.build("tor-socks-proxy_release:${env.BUILD_ID}" "--build-arg PORT=7293")
+                    docker.build("tor-socks-proxy_release:${env.BUILD_ID}", "--build-arg PORT=7293")
                 }
             }
         }
@@ -31,7 +31,7 @@ pipeline {
             }
             steps {
                 script {
-                    docker.build("tor-socks-proxy_release:${env.BUILD_ID}" "--build-arg PORT=5234")
+                    docker.build("tor-socks-proxy_release:${env.BUILD_ID}", "--build-arg PORT=5234")
                 }
             }
         }
