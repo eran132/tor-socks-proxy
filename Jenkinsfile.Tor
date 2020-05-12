@@ -11,18 +11,19 @@ pipeline {
         //         url: 'git@github.com:eran132/tor-socks-proxy.git']]])
         //     }
         // }
-        stage ('git clone repo') {
-            steps {
-                cleanWs()
-                sh "git clone git@github.com:eran132/tor-socks-proxy.git"
-            }
-        }
+        // stage ('git clone repo') {
+        //     steps {
+        //         sh "git clone git@github.com:eran132/tor-socks-proxy.git"
+        //     }
+        // }
         stage ('Build for Release') {
             when {
                 branch 'release'
             }
             steps {
-                sh "docker build -t "tor-socks-proxy_release:$env.BUILD_ID" --build-arg PORT=7293 ."
+                script {
+                    docker.build("tor-socks-proxy_release:${env.BUILD_ID}", "--build-arg PORT=7293 -f Dockerfile .")
+                }
             }
         }
         stage ('Build for develop') {
@@ -30,7 +31,9 @@ pipeline {
                 branch 'develop'
             }
             steps {
-                sh "docker build -t "tor-socks-proxy_develop:$env.BUILD_ID" --build-arg PORT=5234 ."
+                script {
+                    docker.build("tor-socks-proxy_release:${env.BUILD_ID}", "--build-arg PORT=5234 -f Dockerfile .")
+                }
             }
         }
         // stage('build the Docker image') {
