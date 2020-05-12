@@ -22,7 +22,7 @@ pipeline {
                 branch 'release'
             }
             steps {
-                sh "docker build -t "tor-socks-proxy_release:${env.BUILD_ID}" --build-arg PORT=7293 ."
+                sh "docker build -t "tor-socks-proxy_release:$env.BUILD_ID" --build-arg PORT=7293 ."
             }
         }
         stage ('Build for develop') {
@@ -30,7 +30,7 @@ pipeline {
                 branch 'develop'
             }
             steps {
-                sh "docker build -t "tor-socks-proxy_develop:${env.BUILD_ID}" --build-arg PORT=5234 ."
+                sh "docker build -t "tor-socks-proxy_develop:$env.BUILD_ID" --build-arg PORT=5234 ."
             }
         }
         // stage('build the Docker image') {
