@@ -2,7 +2,7 @@ FROM alpine:3.11
 
 LABEL maintainer="Peter Dave Hello <hsu@peterdavehello.org>"
 LABEL name="tor-socks-proxy"
-LABEL version="latest"
+LABEL version="latest_develop"
 
 RUN echo '@edge http://dl-cdn.alpinelinux.org/alpine/edge/community' >> /etc/apk/repositories && \
     apk -U upgrade && \
