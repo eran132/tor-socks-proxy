@@ -1,7 +1,7 @@
 FROM alpine:3.11
 
 ARG PORT
-LABEL maintainer="Peter Dave Hello <hsu@peterdavehello.org>"
+LABEL maintainer="Eran Markus <eran132@gmail.com>"
 LABEL name="tor-socks-proxy"
 LABEL version="latest-release"
 
