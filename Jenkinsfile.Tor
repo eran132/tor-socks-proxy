@@ -3,6 +3,7 @@ pipeline {
     stages {
         stage('clone Code from GitHub') {
             steps {
+                cleanWs(),
                 checkout([$class: 'GitSCM', branches: [[name: '**/tags/*']],
                 doGenerateSubmoduleConfigurations: false,
                 extensions: [], submoduleCfg: [],
