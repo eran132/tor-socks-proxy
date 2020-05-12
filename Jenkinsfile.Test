@@ -8,7 +8,7 @@ pipeline {
                 withCredentials ([usernamePassword(credentialsId: 'docker-eran', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASSWORD')]) {
                     script {
                         // TOKEN=$(curl -s -H "Content-Type: application/json" -X POST -d '{"username": "'${DOCKER_USER}'", "password": "'${DOCKER_PASSWORD}'"}' https://hub.docker.com/v2/users/login/ | jq -r .token)
-                        TOKEN=$(curl -u ${DOCKER_USER}:${DOCKER_PASSWORD} "https://auth.docker.io/token?service=registry-1.docker.io&scope=repository:eran:pull" | jq -r .token)
+                        TOKEN=$(curl -u $DOCKER_USER:$DOCKER_PASSWORD "https://auth.docker.io/token?service=registry-1.docker.io&scope=repository:eran:pull" | jq -r .token)
                         curl https://registry-1.docker.io/v2/eran/tags/list -H "Authorization: Bearer $TOKEN" -L -H "Accept: application/vnd.docker.distribution.manifest.v2+json" "$@"
                         // IMAGE_TAGS=$(curl -s -H "Authorization: JWT ${TOKEN}" https://hub.docker.com/v2/repositories/${DOCKER_USER}/tags/list | jq -r '.results|.[]|.name')
                         // echo $IMAGE_TAGS
