@@ -22,7 +22,7 @@ pipeline {
             }
             steps {
                 script {
-                    def dockerImage = docker.build("tor-socks-proxy_release:${env.BUILD_ID}", "--build-arg PORT=7293 -f Dockerfile .")
+                    def dockerImage = docker.build("eran/tor-socks-proxy_release:${env.BUILD_ID}", "--build-arg PORT=7293 -f Dockerfile .")
                     dockerImage.push()
                 }
             }
@@ -33,7 +33,7 @@ pipeline {
             }
             steps {
                 script {
-                    def dockerImage = docker.build("tor-socks-proxy_develop:${env.BUILD_ID}", "--build-arg PORT=5234 -f Dockerfile .")
+                    def dockerImage = docker.build("eran/tor-socks-proxy_develop:${env.BUILD_ID}", "--build-arg PORT=5234 -f Dockerfile .")
                     dockerImage.push()
 
                 }
