@@ -5,7 +5,7 @@ def getDockerTags() {
     def token = [ 'bash', '-c', "curl https://auth.docker.io/token?service=registry.docker.io&scope=repository:eran/tor-socks-proxy:pull | jq .token | tr -d \" "]
 
 
-    def cmd = [ 'bash', '-c', "curl -H "Authorization: Bearer $token" https://registry-1.docker.io/v2/eran/tor-socks-proxy/tags/list".toString()]
+    def cmd = [ 'bash', '-c', "curl -H "Authorization: Bearer $token" https://registry-1.docker.io/v2/eran/tor-socks-proxy/tags/list".toString() ]
     def result = cmd.execute().text
 
     def slurper = new JsonSlurper()
