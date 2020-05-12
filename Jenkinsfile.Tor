@@ -32,7 +32,7 @@ pipeline {
             }
             steps {
                 script {
-                    docker.build("tor-socks-proxy_release:${env.BUILD_ID}", "--build-arg PORT=5234 -f Dockerfile .")
+                    docker.build("tor-socks-proxy_develop:${env.BUILD_ID}", "--build-arg PORT=5234 -f Dockerfile .")
                 }
             }
         }
