@@ -6,21 +6,6 @@ pipeline {
         dockerImage = ''
     }
     stages {
-        // stage('clone Code from GitHub') {
-        //     steps {
-        //         cleanWs()
-        //         checkout([$class: 'GitSCM', branches: [[name: '**/tags/*']],
-        //         doGenerateSubmoduleConfigurations: false,
-        //         extensions: [], submoduleCfg: [],
-        //         userRemoteConfigs: [[credentialsId: 'eran-jenkins', refspec: '+refs/tags/*:refs/remotes/origin/tags/*',
-        //         url: 'git@github.com:eran132/tor-socks-proxy.git']]])
-        //     }
-        // }
-        // stage ('git clone repo') {
-        //     steps {
-        //         sh "git clone git@github.com:eran132/tor-socks-proxy.git"
-        //     }
-        // }
         stage ('Build for Release') {
             when {
                 branch 'release'
@@ -50,13 +35,5 @@ pipeline {
                 }
             }
         }
-        // stage('build the Docker image') {
-        //     steps {
-        //         script {
-        //             sh 'echo "kuku"'
-        //             docker.build("test:${env.BUILD_ID}")
-        //         }
-        //     }    
-        // }
     }
 }
