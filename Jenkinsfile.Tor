@@ -13,6 +13,7 @@ pipeline {
             steps {
                 script {
                     dockerImage = docker.build("eran/tor-socks-proxy:${env.BUILD_ID}_${env.BRANCH_NAME}", "--build-arg PORT=7293 -f Dockerfile .")
+                    env.DOCKERIMAGE = dockerImage
                 }
             }
         }
@@ -23,6 +24,8 @@ pipeline {
             steps {
                 script {
                     dockerImage = docker.build("eran/tor-socks-proxy:${env.BUILD_ID}_${env.BRANCH_NAME}", "--build-arg PORT=5234 -f Dockerfile .")
+                    env.DOCKERIMAGE = dockerImage
+
                 }
             }
         }
@@ -33,6 +36,11 @@ pipeline {
                         dockerImage.push()
                     }
                 }
+            }
+        }
+        stage ('Trigger test pipeline') {
+            steps {
+                build job: 'eran-tor-socks-proxy-test', parameters: [[$class: 'StringParameterValue', name: 'dockerImage', value: "${env.DOCKERIMAGE}"]]
             }
         }
     }

@@ -1,62 +1,53 @@
-import groovy.json.JsonSlurper
-
-def getDockerTags() {
-
-    def token = [ 'bash', '-c', "curl https://auth.docker.io/token?service=registry.docker.io&scope=repository:eran/tor-socks-proxy:pull | jq .token | tr -d \" "]
-
-
-    def cmd = [ 'bash', '-c', "curl -H "Authorization: Bearer $token" https://registry-1.docker.io/v2/eran/tor-socks-proxy/tags/list".toString() ]
-    def result = cmd.execute().text
-
-    def slurper = new JsonSlurper()
-    def json = slurper.parseText(result)
-    def tags = new ArrayList()
-    if (json.tags == null || json.tags.size == 0)
-      tags.add("unable to fetch tags for eran/to-socks-proxy")
-    else
-      tags.addAll(json.tags)
-    return tags.join('\n')
-}
-
 pipeline {
     agent any
     stages {
-        stage ('List Built Tags') {
-            // steps {
-            //     withCredentials ([usernamePassword(credentialsId: 'docker-eran', usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASSWORD')]) {
+        stage ('Pull Image Built in Upstream job') {
             steps {
-                timeout(time: 30, unit: 'SECONDS') {
-                    script {
-                        // Show the select input modal
-                       def INPUT_PARAMS = input message: 'Please Provide Parameters', ok: 'Next',
-                            parameters: [
-                                choice(name: 'IMAGE_TAG', choices: getDockerTags(), 
-                                    description: 'Available Docker Images')]
-                        env.IMAGE_TAG = INPUT_PARAMS.IMAGE_TAG
-                    }
+                script {
+                    dockerImage.pull()
                 }
             }
         }
-        stage("Use Deployment Parameters") {
-         steps {
-                script {
-                    echo "All parameters have been set as Environment Variables"
-                    echo "Selected Tag: ${env.IMAGE_TAG}"
-                }
-         }
-        }
+        // stage("Gather Deployment Parameters") {
+        //     steps {
+        //         timeout(time: 30, unit: 'SECONDS') {
+        //             script {
+        //                 withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'dockerhub-eran',
+        //                     usernameVariable: 'DOCKERHUB_USER', passwordVariable: 'DOCKERHUB_PASSWORD']]) {
+        //                     def getDockerImages() {
+
+        //                         def token = ['bash', '-c', "curl -s -H \"Content-Type: application/json\" -X POST -d '{\"username\": ${DOCKERHUB_USER}, \"password\": ${DOCKERHUB_PASSWORD}}' https://hub.docker.com/v2/users/login/ | jq -r .token"]
+        //                         def cmd = [ 'bash', '-c', "curl -s -H \"Authorization: JWT ${token}\" https://hub.docker.com/v2/repositories/eran/tor-socks-proxy/tags/?page_size=10000 | jq -r '.results|.[]|.name'"]
+        //                         def result = cmd.execute().text
+
+        //                         def slurper = new JsonSlurper()
+        //                         def json = slurper.parseText(result)
+        //                         def tags = new ArrayList()
+        //                         if (json.tags == null || json.tags.size == 0)
+        //                         tags.add("unable to fetch tags for ${APP_NAME}")
+        //                         else
+        //                         tags.addAll(json.tags)
+        //                         return tags.join('\n')
+        //                         // Show the select input modal
+        //                         def INPUT_PARAMS = input message: 'Please Provide Parameters', ok: 'Next',
+        //                             parameters: [
+        //                                 choice(name: 'IMAGE_TAG', choices: getDockerImages(), 
+        //                                     description: 'Available Docker Images')]
+        //                         env.IMAGE_TAG = INPUT_PARAMS.IMAGE_TAG
+        //                     }
+        //                 }
+        //             }
+        //         }
+        //     }
+        // }
+        // stage("Use Deployment Parameters") {
+        //  steps {
+        //         script {
+        //             echo "All parameters have been set as Environment Variables"
+        //             echo "Selected Environment: ${env.ENVIRONMENT}"
+        //             echo "Selected Tag: ${env.IMAGE_TAG}"
+        //         }
+        //  }
+        // }
     }
-}     
-//                     script {
-//                         // TOKEN=$(curl -s -H "Content-Type: application/json" -X POST -d '{"username": "'${DOCKER_USER}'", "password": "'${DOCKER_PASSWORD}'"}' https://hub.docker.com/v2/users/login/ | jq -r .token)
-//                         TOKEN=$(curl -u "$DOCKER_USER:$DOCKER_PASSWORD" "https://auth.docker.io/token?service=registry-1.docker.io&scope=repository:eran:pull" | jq -r .token)
-//                         curl https://registry-1.docker.io/v2/eran/tags/list -H "Authorization: Bearer $TOKEN" -L -H "Accept: application/vnd.docker.distribution.manifest.v2+json" "$@"
-//                         // IMAGE_TAGS=$(curl -s -H "Authorization: JWT ${TOKEN}" https://hub.docker.com/v2/repositories/${DOCKER_USER}/tags/list | jq -r '.results|.[]|.name')
-//                         // echo $IMAGE_TAGS
-//                     }
-                    
-//                 }
-//             }
-//         }
-//     }
-// }
+}
