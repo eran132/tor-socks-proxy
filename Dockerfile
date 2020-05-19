@@ -3,7 +3,7 @@ FROM alpine:3.11
 ARG PORT
 LABEL maintainer="Eran Markus <eran132@gmail.com>"
 LABEL name="eran-tor-socks-proxy"
-LABEL version="latest-release_May192020"
+LABEL version="latest-release_May192020_new"
 
 RUN echo '@edge http://dl-cdn.alpinelinux.org/alpine/edge/community' >> /etc/apk/repositories && \
     apk -U upgrade && \
