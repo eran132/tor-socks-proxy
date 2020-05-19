@@ -1,5 +1,8 @@
 pipeline {
     agent any
+    environment {
+        dockerImage = 'eran/tor-socks-proxy:24_release'
+    }
     stages {
         stage ('Pull Image Built in Upstream job') {
             steps {
